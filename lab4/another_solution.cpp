@@ -57,7 +57,6 @@ public:
     n_ = aN;
     solution_ = false;
     reversed_ = false;
-    Solve();
   }
 
   bool Solve(){
@@ -315,12 +314,50 @@ public:
       cout << "No";
     }
   }
+  bool IfSolutionExists(){
+    return solution_;
+  }
+  vector<vector<char>> GetMatrix() {
+    if(solution_) {
+      if(!reversed_) {
+        vector<vector<char>> field_to_return(matrix_.size(),vector<char> (matrix_[0].size()));
+        for (int i = 0; i < matrix_.size(); i++) {
+          for (int j = 0; j < matrix_[i].size(); j++) {
+            field_to_return[i][j] =  matrix_[i][j];
+          }
+        }
+      } else {
+        vector<vector<char>> field_to_return(matrix_[0].size(),vector<char> (matrix_.size()));
+        for (int i = 0; i < matrix_[0].size(); i++) {
+          for (int j = 0; j < matrix_.size(); j++) {
+            if(matrix_[j][i] == '-') {
+              field_to_return[i][j] = '|';
+            } else if(matrix_[j][i] == '|') {
+              field_to_return[i][j] =  '-';
+            } else if(matrix_[j][i] == '/') {
+              field_to_return[i][j] =  '/';
+            } else if(matrix_[j][i] == '\\') {
+              field_to_return[i][j] =  '\\';
+            } else {
+              field_to_return[i][j] =  matrix_[j][i];
+            }
+          }
+        }
+      }
+    }
+  }
 };
+
+
+void test() {
+
+}
 
 int main() {
   int N,M;
   cin >> N >> M;
   field sol(M,N);
+  sol.Solve();
   sol.print();
   return 0;
 }
